@@ -1,0 +1,62 @@
+<!-- Page 2: page2.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Quiz - Page 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://source.unsplash.com/random/1920x1080');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        #next-btn { display: none; }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h2>Next Question</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/3JZ_D3ELwOQ" frameborder="0" allowfullscreen></iframe>
+       
+        <p>What is 5 + 3?</p>
+        <input type="text" id="answer" placeholder="Type your answer here">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="feedback"></p>
+        <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+   
+    <script>
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer").value.trim();
+            const correctAnswer = "8";
+            const feedback = document.getElementById("feedback");
+            const nextBtn = document.getElementById("next-btn");
+           
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "Correct!";
+                feedback.style.color = "lightgreen";
+                nextBtn.style.display = "block"; // Show next button
+            } else {
+                feedback.textContent = "Incorrect. Try again.";
+                feedback.style.color = "red";
+            }
+        }
+
+        function nextQuestion() {
+            window.location.href = "page3.html"; // Go to next question
+        }
+    </script>
+</body>
+</html>
+
