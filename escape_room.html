@@ -9,11 +9,25 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('https://github.com/felixnotable/escape_room/blob/main/national_flag2.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-        }
+            <!-- background-image: url('https://github.com/felixnotable/escape_room/blob/main/national_flag2.jpg?raw=true'); -->
+            <!-- background-size: cover; -->
+            <!-- background-position: center; -->
+	}
+	body::before {
+    	    content: "";
+    	    position: absolute;
+    	    top: 0;
+    	    left: 0;
+    	    width: 100%;
+    	    height: 100%;
+            background-image: url('https://github.com/felixnotable/escape_room/blob/main/national_flag2.jpg?raw=true');
+    	    background-size: cover;
+    	    background-position: center;
+    	    background-repeat: no-repeat;
+    	    background-attachment: fixed;
+    	    z-index: -1; /* Ensure the image stays behind content */
+    	    opacity: 0.5; /* Adjust this for the fade effect (0 to 1) */
+	}
         #quiz-container {
             max-width: 600px;
             margin: auto;
@@ -27,9 +41,9 @@
 <body>
     <div id="quiz-container">
         <h2>Watch the video and answer the question</h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-       
-        <p>What is 2 + 2?</p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/AV-88eX1w7g?si=pO4ZFJvBUXxjAv3A" frameborder="0" allowfullscreen></iframe>
+        
+	<p>What is 2 + 2?</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
@@ -54,7 +68,7 @@
         }
 
         function nextQuestion() {
-            window.location.href = "page2.html"; // Go to next question
+            window.location.href = "escape_room3.html"; // Go to next question
         }
     </script>
 </body>
