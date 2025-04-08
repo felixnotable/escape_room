@@ -43,7 +43,15 @@
             display: inline-block;
             margin: 20px auto; /* Auto margin centers the button */
         }
+        #message {
+          margin-top: 10px;
+        }
 
+        #timer {
+          margin-top: 10px;
+          color: red;
+          font-weight: bold;
+        }
         button:hover {
             background-color: #cc5000;
         }
@@ -58,13 +66,17 @@
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
-        <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+       	 <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+        <div id="message"></div>
+        <div id="timer"></div> 
     </div>
-   
     <script>
+        let isLocked = false;
+        let countdown;
         function checkAnswer() {
+	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "4";
+            const correctAnswer = "42";
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
            
@@ -72,12 +84,50 @@
                 feedback.textContent = "Correct!";
                 feedback.style.color = "lightgreen";
                 nextBtn.style.display = "block"; // Show next button
+                document.getElementById("message").innerText = "";
+                document.getElementById("timer").innerText = "";
             } else {
-                feedback.textContent = "Incorrect. Try again.";
+                feedback.textContent = "Incorrect. ";
                 feedback.style.color = "red";
+                document.getElementById("message").innerText = "";
+		startCooldown();
             }
             // Clear the input field after submission
             document.getElementById("answer").value = ""; 
+       }
+
+       function startCooldown() {
+         isLocked = true;
+         let timeLeft = 30;
+         lockInput(true);
+         updateTimerDisplay(timeLeft);
+         document.getElementById("timer").innerText = `Wait ${timeLeft} seconds`;
+
+         countdown = setInterval(() => {
+           timeLeft--;
+           document.getElementById("timer").innerText = `Wait ${timeLeft} seconds`;
+           if (timeLeft <= 0) {
+             clearInterval(countdown);
+             isLocked = false;
+             lockInput(false);
+             document.getElementById("timer").innerText = "";
+             document.getElementById("message").innerText = "Try again.";
+           }
+         }, 1000);
+       }
+
+       function updateTimerDisplay(seconds) {
+         document.getElementById("timer").innerText = `⏳ Wait ${seconds} second${seconds !== 1 ? 's' : ''}`;
+       }
+
+       function lockInput(disable) {
+         document.getElementById("answer").disabled = disable;
+         const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
+         if (submitBtn) {
+             submitBtn.disabled = disable;
+             submitBtn.style.backgroundColor = disable ? "grey" : "#ff6000";
+             submitBtn.style.cursor = disable ? "not-allowed" : "pointer";
+         }
        }
 
         function nextQuestion() {
@@ -85,6 +135,14 @@
             document.getElementById("answer").value = "";
             window.location.href = "escape_room2.html"; // Go to next question
         }
+        document.getElementById("answer").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const input = event.target.value.trim();
+                if (input !== "") {
+                    checkAnswer();
+                }
+            }
+        });
     </script>
 </body>
 </html>
