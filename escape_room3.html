@@ -55,18 +55,35 @@
         button:hover {
             background-color: #cc5000;
         }
+        #custom-audio-button {
+            width: 100px;
+            height: 100px;
+            background-image: url('radio_background');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            margin: 20px auto;
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
     <div id="quiz-container">
-        <h2>Watch the video and answer the question</h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/_nmd6HXKXYU?si=OCyhPMtY_wBT-tZI" frameborder="0" allowfullscreen></iframe>
-        
+        <h2>Enter correct code to watch the video</h2>
+        <div id="audio-container" style="display: none;">
+             <p>Congratulations! Listen to the audio.</p>
+             <audio id="correctSound" controls>
+                 <source src="https://felixnotable.github.io/escape_room/right_answer.m4a" type="audio/mpeg">
+                 Your browser does not support the audio element.
+             </audio>
+	     <div id="custom-audio-button"></div>
+        </div>
+ 
 	<p>Enter the code.</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
-       	 <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+       	<button id="next-btn" onclick="nextQuestion()">Next Question</button>
         <div id="message"></div>
         <div id="timer"></div> 
     </div>
@@ -76,20 +93,35 @@
         function checkAnswer() {
 	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "42";
+            const correctAnswer = "Montreal".toLowerCase();
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
+
+            let correctSound = document.getElementById("correctSound");
+            let wrongSound = document.getElementById("wrongSound");
+            let audioContainer = document.getElementById("audio-container");
+            let audioImage = document.getElementById("custom-audio-button");
+            if (userAnswer === "") return;
            
-            if (userAnswer === correctAnswer) {
+            if (userAnswer.toLowerCase() === correctAnswer) {
                 feedback.textContent = "Correct!";
                 feedback.style.color = "lightgreen";
-                nextBtn.style.display = "block"; // Show next button
                 document.getElementById("message").innerText = "";
                 document.getElementById("timer").innerText = "";
+                // Reveal and play the audio
+                audioContainer.style.display = "block";  
+                audioImage.style.display = "block"; 
+		correctSound.play();
+                nextBtn.style.display = "block"; // Show next button
             } else {
                 feedback.textContent = "Incorrect. ";
                 feedback.style.color = "red";
                 document.getElementById("message").innerText = "";
+
+                setTimeout(() => {
+                    wrongSound.play();
+                }, 500);
+                audioContainer.style.display = "none";  // Hide correct audio
 		startCooldown();
             }
             // Clear the input field after submission

@@ -76,11 +76,13 @@
         function checkAnswer() {
 	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "42";
+            const correctAnswer = "Bill of Rights".toLowerCase();
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
+
+            if (userAnswer === "") return;
            
-            if (userAnswer === correctAnswer) {
+            if (userAnswer.toLowerCase() === correctAnswer) {
                 feedback.textContent = "Correct!";
                 feedback.style.color = "lightgreen";
                 nextBtn.style.display = "block"; // Show next button

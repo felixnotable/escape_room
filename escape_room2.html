@@ -76,9 +76,11 @@
         function checkAnswer() {
 	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "42";
+            const correctAnswer = "16.0";
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
+
+            if (userAnswer === "") return;
            
             if (userAnswer === correctAnswer) {
                 feedback.textContent = "Correct!";
