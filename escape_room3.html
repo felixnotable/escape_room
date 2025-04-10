@@ -71,15 +71,19 @@
     <div id="quiz-container">
         <h2>Enter correct code to listen to an audio</h2>
         <div id="custom-audio-button" style="display: none;">
-             <p>Congratulations! Listen to the audio.</p>
              <audio id="correctSound" controls>
                  <source src="https://felixnotable.github.io/escape_room/right_answer.m4a" type="audio/mpeg">
                  Your browser does not support the audio element.
              </audio>
-	     //<div id="custom-audio-button"></div>
         </div>
- 
-	<p>Enter the code.</p>
+        <div id="second-question" style="display: none;">
+             <p id="code-label2">Where is the train arriving?</p>
+             <input type="text" id="answer2" placeholder="Type your answer here">
+             <button onclick="checkSecondAnswer()">Submit</button>
+             <p id="second-feedback"></p>
+        </div>
+
+	<p id="code-label">Enter the code</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
@@ -93,44 +97,76 @@
         function checkAnswer() {
 	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "Montreal".toLowerCase();
+            const correctAnswer = "16.0".toLowerCase();
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
+            const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
 
             let correctSound = document.getElementById("correctSound");
             let wrongSound = document.getElementById("wrongSound");
             let audioContainer = document.getElementById("custom-audio-button");
+            let secondQuestionContainer = document.getElementById("second-question");
             //let audioImage = document.getElementById("custom-audio-button");
             if (userAnswer === "") return;
            
             if (userAnswer.toLowerCase() === correctAnswer) {
-                feedback.textContent = "Correct!";
-                feedback.style.color = "lightgreen";
                 document.getElementById("message").innerText = "";
                 document.getElementById("timer").innerText = "";
-                // Reveal and play the audio
+                submitBtn.style.display = "none";
+		document.getElementById("code-label").style.display = "none";
+                document.getElementById("answer").style.display = "none";
                 audioContainer.style.display = "block";  
-            //    audioImage.style.display = "block"; 
 		correctSound.play();
-                nextBtn.style.display = "block"; // Show next button
             } else {
                 feedback.textContent = "Incorrect. ";
                 feedback.style.color = "red";
                 document.getElementById("message").innerText = "";
 
-                setTimeout(() => {
-                    wrongSound.play();
-                }, 500);
+                //setTimeout(() => {
+                    //wrongSound.play();
+                //}, 500);
                 audioContainer.style.display = "none";  // Hide correct audio
-		startCooldown();
+		startCooldown(feedback);
             }
             // Clear the input field after submission
             document.getElementById("answer").value = ""; 
        }
 
-       function startCooldown() {
+       document.getElementById("correctSound").addEventListener("ended", function() {
+   		 document.getElementById("second-question").style.display = "block";
+	});
+
+       function checkSecondAnswer() {
+            if (isLocked) return;
+            const answer = document.getElementById("answer2").value.trim().toLowerCase();
+            const feedback = document.getElementById("second-feedback");
+            const submitBtn = document.querySelector("button[onclick='checkSecondAnswer()']");
+            if (answer === "") return;
+            if (answer.toLowerCase() === "Montreal".toLowerCase()) {
+                document.getElementById("message").innerText = "";
+                document.getElementById("timer").innerText = "";
+                submitBtn.style.display = "none";
+               feedback.textContent = "Correct!";
+               feedback.style.color = "lightgreen";
+                submitBtn.style.display = "none";
+		document.getElementById("code-label2").style.display = "none";
+                document.getElementById("answer2").style.display = "none";
+               document.getElementById("next-btn").style.display = "block";
+            } else {
+               feedback.textContent = "Incorrect.";
+               feedback.style.color = "red";
+                document.getElementById("message").innerText = "";
+
+                //setTimeout(() => {
+                    //wrongSound.play();
+                //}, 500);
+                startCooldown(feedback);
+            }
+            document.getElementById("answer2").value = ""; 
+       }
+       function startCooldown(feedback) {
          isLocked = true;
-         let timeLeft = 30;
+         let timeLeft = 3;
          lockInput(true);
          updateTimerDisplay(timeLeft);
          document.getElementById("timer").innerText = `Wait ${timeLeft} seconds`;
@@ -144,6 +180,7 @@
              lockInput(false);
              document.getElementById("timer").innerText = "";
              document.getElementById("message").innerText = "Try again.";
+	     feedback.textContent = "";
            }
          }, 1000);
        }
@@ -154,11 +191,18 @@
 
        function lockInput(disable) {
          document.getElementById("answer").disabled = disable;
+         document.getElementById("answer2").disabled = disable;
          const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
          if (submitBtn) {
              submitBtn.disabled = disable;
              submitBtn.style.backgroundColor = disable ? "grey" : "#ff6000";
              submitBtn.style.cursor = disable ? "not-allowed" : "pointer";
+         }
+         const secondSubmitBtn = document.querySelector("button[onclick='checkSecondAnswer()']");
+         if (secondSubmitBtn) {
+             secondSubmitBtn.disabled = disable;
+             secondSubmitBtn.style.backgroundColor = disable ? "grey" : "#ff6000";
+             secondSubmitBtn.style.cursor = disable ? "not-allowed" : "pointer";
          }
        }
 
@@ -172,6 +216,14 @@
                 const input = event.target.value.trim();
                 if (input !== "") {
                     checkAnswer();
+                }
+            }
+        });
+        document.getElementById("answer2").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                const input = event.target.value.trim();
+                if (input !== "") {
+                    checkSecondAnswer();
                 }
             }
         });

@@ -59,9 +59,9 @@
 </head>
 <body>
     <div id="quiz-container">
-        <h2>Watch the video and answer the question</h2>
+        <h2>Watch the video</h2>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/neC4sNuqWBg?si=U-d0nGAEjxlfdzPk" frameborder="0" allowfullscreen></iframe>
-	<p>Enter the code.</p>
+	<p id="code-label">Enter the code</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
@@ -78,12 +78,16 @@
             const correctAnswer = "Kennedy".toLowerCase();
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
+            const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
 
             if (userAnswer === "") return;
            
             if (userAnswer.toLowerCase() === correctAnswer) {
                 feedback.textContent = "Correct!";
                 feedback.style.color = "lightgreen";
+                submitBtn.style.display = "none";
+                document.getElementById("code-label").style.display = "none";
+                document.getElementById("answer").style.display = "none";
                 nextBtn.style.display = "block"; // Show next button
                 document.getElementById("message").innerText = "";
                 document.getElementById("timer").innerText = "";
