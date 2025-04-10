@@ -56,9 +56,9 @@
             background-color: #cc5000;
         }
         #custom-audio-button {
-            width: 100px;
-            height: 100px;
-            background-image: url('radio_background');
+            width: 300px;
+            height: 300px;
+            background-image: url('https://github.com/felixnotable/escape_room/blob/main/raido_background.png?raw=true');
             background-size: cover;
             background-position: center;
             cursor: pointer;
@@ -70,13 +70,13 @@
 <body>
     <div id="quiz-container">
         <h2>Enter correct code to watch the video</h2>
-        <div id="audio-container" style="display: none;">
+        <div id="custom-audio-button" style="display: none;">
              <p>Congratulations! Listen to the audio.</p>
              <audio id="correctSound" controls>
                  <source src="https://felixnotable.github.io/escape_room/right_answer.m4a" type="audio/mpeg">
                  Your browser does not support the audio element.
              </audio>
-	     <div id="custom-audio-button"></div>
+	     //<div id="custom-audio-button"></div>
         </div>
  
 	<p>Enter the code.</p>
@@ -99,8 +99,8 @@
 
             let correctSound = document.getElementById("correctSound");
             let wrongSound = document.getElementById("wrongSound");
-            let audioContainer = document.getElementById("audio-container");
-            let audioImage = document.getElementById("custom-audio-button");
+            let audioContainer = document.getElementById("custom-audio-button");
+            //let audioImage = document.getElementById("custom-audio-button");
             if (userAnswer === "") return;
            
             if (userAnswer.toLowerCase() === correctAnswer) {
@@ -110,7 +110,7 @@
                 document.getElementById("timer").innerText = "";
                 // Reveal and play the audio
                 audioContainer.style.display = "block";  
-                audioImage.style.display = "block"; 
+            //    audioImage.style.display = "block"; 
 		correctSound.play();
                 nextBtn.style.display = "block"; // Show next button
             } else {
