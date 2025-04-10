@@ -96,13 +96,13 @@
                 feedback.textContent = "Incorrect. ";
                 feedback.style.color = "red";
                 document.getElementById("message").innerText = "";
-		startCooldown();
+		startCooldown(feedback);
             }
             // Clear the input field after submission
             document.getElementById("answer").value = ""; 
        }
 
-       function startCooldown() {
+       function startCooldown(feedback) {
          isLocked = true;
          let timeLeft = 30;
          lockInput(true);
@@ -116,6 +116,7 @@
              clearInterval(countdown);
              isLocked = false;
              lockInput(false);
+             feedback.textContent = "";
              document.getElementById("timer").innerText = "";
              document.getElementById("message").innerText = "Try again.";
            }
