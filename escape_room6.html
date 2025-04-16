@@ -55,18 +55,27 @@
         button:hover {
             background-color: #cc5000;
         }
+        #custom-audio-button {
+            width: 300px;
+            height: 300px;
+            background-image: url('https://github.com/felixnotable/escape_room/blob/main/last_image.png?raw=true');
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            margin: 20px auto;
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
     <div id="quiz-container">
-        <h2>Watch the video</h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/ohypX6cp-zg?si=IUUb97X4dNYA2QlM" frameborder="0" allowfullscreen></iframe>
-        
+        <div id="custom-audio-button" style="display: block;">
+        </div>        
 	<p id="code-label">Enter the code</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
-       	 <button id="next-btn" onclick="nextQuestion()">Next</button>
+       	 <button id="next-btn" onclick="nextQuestion()">Next Question</button>
         <div id="message"></div>
         <div id="timer"></div> 
     </div>
@@ -76,7 +85,7 @@
         function checkAnswer() {
 	    if (isLocked) return;
             const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = "Montreal Stock Exchange".toLowerCase();
+            const correctAnswer = "0213".toLowerCase();
             const feedback = document.getElementById("feedback");
             const nextBtn = document.getElementById("next-btn");
             const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
