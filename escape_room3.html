@@ -70,22 +70,27 @@
 <body>
     <div id="quiz-container">
         <h2>Tune the radio to the correct frequency</h2>
+        <iframe width="560" height="315" src="https://scratch.mit.edu/projects/1160668268" frameborder="0" allowfullscreen></iframe>
+        <!-- 
         <div id="custom-audio-button" style="display: none;">
              <audio id="correctSound" controls>
                  <source src="https://felixnotable.github.io/escape_room/right_answer.m4a" type="audio/mpeg">
                  Your browser does not support the audio element.
              </audio>
-        </div>
-        <div id="second-question" style="display: none;">
+        </div> 
+        -->
+        <div id="second-question" style="display: block;">
              <p id="code-label2">Where is the train arriving?</p>
              <input type="text" id="answer2" placeholder="Type your answer here">
              <button onclick="checkSecondAnswer()">Submit</button>
              <p id="second-feedback"></p>
         </div>
 
-	<p id="code-label">Enter the code</p>
+	<!--
+        <p id="code-label">Enter the code</p>
         <input type="text" id="answer" placeholder="Type your answer here">
         <button onclick="checkAnswer()">Submit</button>
+        -->
         <p id="feedback"></p>
        	<button id="next-btn" onclick="nextQuestion()">Next Question</button>
         <div id="message"></div>
@@ -132,9 +137,11 @@
             document.getElementById("answer").value = ""; 
        }
 
-       document.getElementById("correctSound").addEventListener("ended", function() {
+       /*
+        document.getElementById("correctSound").addEventListener("ended", function() {
    		 document.getElementById("second-question").style.display = "block";
 	});
+       */
 
        function checkSecondAnswer() {
             if (isLocked) return;
@@ -190,14 +197,16 @@
        }
 
        function lockInput(disable) {
-         document.getElementById("answer").disabled = disable;
+         /*document.getElementById("answer").disabled = disable;*/
          document.getElementById("answer2").disabled = disable;
+         /*
          const submitBtn = document.querySelector("button[onclick='checkAnswer()']");
          if (submitBtn) {
              submitBtn.disabled = disable;
              submitBtn.style.backgroundColor = disable ? "grey" : "#ff6000";
              submitBtn.style.cursor = disable ? "not-allowed" : "pointer";
          }
+         */
          const secondSubmitBtn = document.querySelector("button[onclick='checkSecondAnswer()']");
          if (secondSubmitBtn) {
              secondSubmitBtn.disabled = disable;
@@ -208,9 +217,11 @@
 
         function nextQuestion() {
             // Clear the input field after submission
-            document.getElementById("answer").value = "";
+            document.getElementById("answer2").value = "";
             window.location.href = "escape_room4.html"; // Go to next question
         }
+
+        /*
         document.getElementById("answer").addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
                 const input = event.target.value.trim();
@@ -219,8 +230,10 @@
                 }
             }
         });
+        */
         document.getElementById("answer2").addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
+                console.log("Enter pressed in answer2 input");
                 const input = event.target.value.trim();
                 if (input !== "") {
                     checkSecondAnswer();
